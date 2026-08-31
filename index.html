@@ -1,43 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TaskFlow</title>
+    <title>TaskFlow | Task Manager</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <div class="container">
+    <main class="container">
 
-        <h1>TaskFlow</h1>
+        <section class="app">
 
-        <p class="subtitle">
-            Organize your tasks. Get things done.
-        </p>
+            <header class="app-header">
 
-        <div class="task-input">
+                <div>
 
-            <input
-                type="text"
-                id="taskInput"
-                placeholder="What do you need to do?"
-            >
+                    <h1>TaskFlow</h1>
 
-            <button id="addTaskBtn">
-                Add Task
-            </button>
+                    <p class="subtitle">
+                        Organize your day. Get things done.
+                    </p>
 
-        </div>
+                </div>
 
-        <ul id="taskList"></ul>
+                <div class="task-counter">
 
-    </div>
+                    <span id="taskCount">0</span>
+
+                    <small>Tasks</small>
+
+                </div>
+
+            </header>
+
+
+            <div class="task-input">
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="What do you need to do?"
+                    autocomplete="off"
+                >
+
+                <button id="addTaskBtn">
+                    Add Task
+                </button>
+
+            </div>
+
+
+            <div id="emptyState" class="empty-state">
+
+                <div class="empty-icon">📋</div>
+
+                <h2>No tasks yet</h2>
+
+                <p>Add your first task and start your day.</p>
+
+            </div>
+
+
+            <ul id="taskList"></ul>
+
+
+        </section>
+
+    </main>
+
 
     <script src="script.js"></script>
 
 </body>
+
 </html>
