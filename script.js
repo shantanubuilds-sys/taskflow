@@ -1,73 +1,104 @@
 const taskInput = document.getElementById("taskInput");
+
 const addTaskBtn = document.getElementById("addTaskBtn");
+
 const taskList = document.getElementById("taskList");
 
+const taskCount = document.getElementById("taskCount");
 
-// Load saved tasks when the website opens
+const emptyState = document.getElementById("emptyState");
+
+
+
 document.addEventListener("DOMContentLoaded", loadTasks);
 
 
-// Add a new task
+
 function addTask() {
 
     const taskText = taskInput.value.trim();
 
+
     if (taskText === "") {
+
         alert("Please enter a task!");
+
         return;
+
     }
+
 
     createTask(taskText, false);
 
+
     taskInput.value = "";
 
+
     saveTasks();
+
+    updateTaskUI();
+
 }
 
 
-// Create a task
+
 function createTask(taskText, completed) {
 
     const taskItem = document.createElement("li");
 
+
     taskItem.innerHTML = `
+
         <span>${taskText}</span>
+
         <button class="delete-btn">Delete</button>
+
     `;
 
 
     if (completed) {
+
         taskItem.classList.add("completed");
+
     }
 
 
     taskItem.addEventListener("click", function (event) {
 
+
         if (event.target.classList.contains("delete-btn")) {
 
             taskItem.remove();
 
-        } else {
+        }
+
+        else {
 
             taskItem.classList.toggle("completed");
 
         }
 
+
         saveTasks();
+
+        updateTaskUI();
 
     });
 
 
     taskList.appendChild(taskItem);
+
 }
 
 
-// Save tasks to Local Storage
+
 function saveTasks() {
 
     const tasks = [];
 
+
     document.querySelectorAll("#taskList li").forEach(function (taskItem) {
+
 
         tasks.push({
 
@@ -85,12 +116,14 @@ function saveTasks() {
 }
 
 
-// Load saved tasks
+
 function loadTasks() {
 
     const savedTasks = JSON.parse(localStorage.getItem("tasks"));
 
+
     if (savedTasks) {
+
 
         savedTasks.forEach(function (task) {
 
@@ -100,15 +133,43 @@ function loadTasks() {
 
     }
 
+
+    updateTaskUI();
+
 }
 
 
-// Add task when button is clicked
+
+function updateTaskUI() {
+
+    const tasks = document.querySelectorAll("#taskList li");
+
+
+    taskCount.textContent = tasks.length;
+
+
+    if (tasks.length === 0) {
+
+        emptyState.style.display = "block";
+
+    }
+
+    else {
+
+        emptyState.style.display = "none";
+
+    }
+
+}
+
+
+
 addTaskBtn.addEventListener("click", addTask);
 
 
-// Add task when Enter is pressed
+
 taskInput.addEventListener("keypress", function (event) {
+
 
     if (event.key === "Enter") {
 
