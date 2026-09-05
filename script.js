@@ -1,18 +1,56 @@
-const taskInput = document.getElementById("taskInput");
+const taskInput =
+    document.getElementById("taskInput");
 
-const addTaskBtn = document.getElementById("addTaskBtn");
+const addTaskBtn =
+    document.getElementById("addTaskBtn");
 
-const taskList = document.getElementById("taskList");
+const taskList =
+    document.getElementById("taskList");
 
-const taskCount = document.getElementById("taskCount");
+const taskCount =
+    document.getElementById("taskCount");
 
-const emptyState = document.getElementById("emptyState");
+const emptyState =
+    document.getElementById("emptyState");
 
-const dueDate = document.getElementById("dueDate");
+const noResults =
+    document.getElementById("noResults");
 
-const priority = document.getElementById("priority");
+const dueDate =
+    document.getElementById("dueDate");
+
+const priority =
+    document.getElementById("priority");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const filterButtons =
+    document.querySelectorAll(".filter-btn");
 
 
+const totalTasks =
+    document.getElementById("totalTasks");
+
+const activeTasks =
+    document.getElementById("activeTasks");
+
+const completedTasks =
+    document.getElementById("completedTasks");
+
+const completionRate =
+    document.getElementById("completionRate");
+
+
+let currentFilter = "all";
+
+let tasks = [];
+
+
+
+/* =========================
+   LOAD
+========================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -21,18 +59,49 @@ document.addEventListener(
 
 
 
-/* ADD TASK */
+function loadTasks() {
+
+    const savedTasks =
+        JSON.parse(
+            localStorage.getItem("taskflowTasks")
+        );
+
+
+    tasks = savedTasks || [];
+
+
+    renderTasks();
+
+}
+
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveTasks() {
+
+    localStorage.setItem(
+        "taskflowTasks",
+        JSON.stringify(tasks)
+    );
+
+}
+
+
+
+/* =========================
+   ADD TASK
+========================= */
 
 function addTask() {
 
-    const taskText = taskInput.value.trim();
-
-    const taskDueDate = dueDate.value;
-
-    const taskPriority = priority.value;
+    const text =
+        taskInput.value.trim();
 
 
-    if (taskText === "") {
+    if (text === "") {
 
         alert("Please enter a task!");
 
@@ -41,12 +110,30 @@ function addTask() {
     }
 
 
-    createTask(
-        taskText,
-        taskDueDate,
-        taskPriority,
-        false
-    );
+    const newTask = {
+
+        id:
+            Date.now(),
+
+        text:
+            text,
+
+        date:
+            dueDate.value,
+
+        priority:
+            priority.value,
+
+        completed:
+            false
+
+    };
+
+
+    tasks.push(newTask);
+
+
+    saveTasks();
 
 
     taskInput.value = "";
@@ -56,24 +143,128 @@ function addTask() {
     priority.value = "medium";
 
 
-    saveTasks();
-
-    updateTaskUI();
+    renderTasks();
 
 }
 
 
 
-/* CREATE TASK */
+/* =========================
+   RENDER TASKS
+========================= */
 
-function createTask(
-    taskText,
-    taskDueDate,
-    taskPriority,
-    completed
-) {
+function renderTasks() {
 
-    const taskItem = document.createElement("li");
+    taskList.innerHTML = "";
+
+
+    const searchTerm =
+        searchInput.value
+        .trim()
+        .toLowerCase();
+
+
+    const filteredTasks =
+        tasks.filter(function(task) {
+
+
+            const matchesSearch =
+                task.text
+                .toLowerCase()
+                .includes(searchTerm);
+
+
+            let matchesFilter = true;
+
+
+            if (
+                currentFilter ===
+                "active"
+            ) {
+
+                matchesFilter =
+                    !task.completed;
+
+            }
+
+
+            if (
+                currentFilter ===
+                "completed"
+            ) {
+
+                matchesFilter =
+                    task.completed;
+
+            }
+
+
+            if (
+                currentFilter ===
+                "high"
+            ) {
+
+                matchesFilter =
+                    task.priority === "high";
+
+            }
+
+
+            return (
+                matchesSearch &&
+                matchesFilter
+            );
+
+        });
+
+
+    filteredTasks.forEach(
+        function(task) {
+
+            createTaskElement(task);
+
+        }
+    );
+
+
+    updateUI(
+        filteredTasks.length
+    );
+
+}
+
+
+
+/* =========================
+   CREATE TASK ELEMENT
+========================= */
+
+function createTaskElement(task) {
+
+    const taskItem =
+        document.createElement("li");
+
+
+    if (task.completed) {
+
+        taskItem.classList.add(
+            "completed"
+        );
+
+    }
+
+
+    if (
+        !task.completed &&
+        task.date
+    ) {
+
+        updateDeadlineStatus(
+            taskItem,
+            task.date
+        );
+
+    }
 
 
     taskItem.innerHTML = `
@@ -81,23 +272,37 @@ function createTask(
         <div class="task-content">
 
             <div class="task-title">
-                ${escapeHTML(taskText)}
+
+                ${escapeHTML(task.text)}
+
             </div>
+
 
             <div class="task-meta">
 
-                ${
-                    taskDueDate
-                    ? `<span class="date">
-                        📅 ${formatDate(taskDueDate)}
-                       </span>`
-                    : `<span class="date">
-                        📅 No deadline
-                       </span>`
-                }
+                <span class="date">
 
-                <span class="priority priority-${taskPriority}">
-                    ${formatPriority(taskPriority)}
+                    ${
+                        task.date
+                        ? "📅 " +
+                          formatDate(task.date)
+                        : "📅 No deadline"
+                    }
+
+                </span>
+
+
+                <span
+                    class="
+                        priority
+                        priority-${task.priority}
+                    "
+                >
+
+                    ${formatPriority(
+                        task.priority
+                    )}
+
                 </span>
 
             </div>
@@ -105,79 +310,124 @@ function createTask(
         </div>
 
 
-        <button class="delete-btn">
+        <button
+            class="delete-btn"
+            data-id="${task.id}"
+        >
+
             Delete
+
         </button>
 
     `;
 
 
-    if (completed) {
-
-        taskItem.classList.add("completed");
-
-    }
-
-
-    updateDeadlineStatus(
-        taskItem,
-        taskDueDate,
-        completed
-    );
-
-
     taskItem.addEventListener(
         "click",
-        function (event) {
+        function(event) {
+
 
             if (
-                event.target.classList
+                event.target
+                .classList
                 .contains("delete-btn")
             ) {
 
-                taskItem.remove();
+                deleteTask(task.id);
 
-            }
-
-            else {
-
-                taskItem.classList
-                    .toggle("completed");
+                return;
 
             }
 
 
-            saveTasks();
-
-            updateTaskUI();
+            toggleTask(task.id);
 
         }
     );
 
 
-    taskList.appendChild(taskItem);
+    taskList.appendChild(
+        taskItem
+    );
 
 }
 
 
 
-/* DEADLINE STATUS */
+/* =========================
+   TOGGLE TASK
+========================= */
+
+function toggleTask(id) {
+
+    tasks =
+        tasks.map(
+            function(task) {
+
+                if (task.id === id) {
+
+                    return {
+
+                        ...task,
+
+                        completed:
+                            !task.completed
+
+                    };
+
+                }
+
+
+                return task;
+
+            }
+        );
+
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+
+/* =========================
+   DELETE TASK
+========================= */
+
+function deleteTask(id) {
+
+    tasks =
+        tasks.filter(
+            function(task) {
+
+                return task.id !== id;
+
+            }
+        );
+
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+
+/* =========================
+   DEADLINE
+========================= */
 
 function updateDeadlineStatus(
     taskItem,
-    taskDueDate,
-    completed
+    dateString
 ) {
-
-    if (!taskDueDate || completed) {
-
-        return;
-
-    }
-
 
     const today =
         new Date();
+
 
     today.setHours(
         0,
@@ -188,7 +438,8 @@ function updateDeadlineStatus(
 
 
     const deadline =
-        new Date(taskDueDate);
+        new Date(dateString);
+
 
     deadline.setHours(
         0,
@@ -203,7 +454,10 @@ function updateDeadlineStatus(
 
 
     const oneDay =
-        1000 * 60 * 60 * 24;
+        1000 *
+        60 *
+        60 *
+        24;
 
 
     if (difference < 0) {
@@ -214,7 +468,10 @@ function updateDeadlineStatus(
 
     }
 
-    else if (difference <= oneDay) {
+
+    else if (
+        difference <= oneDay
+    ) {
 
         taskItem.classList.add(
             "due-soon"
@@ -226,129 +483,78 @@ function updateDeadlineStatus(
 
 
 
-/* SAVE TASKS */
+/* =========================
+   UPDATE UI
+========================= */
 
-function saveTasks() {
+function updateUI(
+    visibleTaskCount
+) {
 
-    const tasks = [];
-
-
-    document
-        .querySelectorAll("#taskList li")
-        .forEach(function (taskItem) {
-
-
-            const title =
-                taskItem
-                .querySelector(".task-title")
-                .textContent;
+    const total =
+        tasks.length;
 
 
-            const dateElement =
-                taskItem
-                .querySelector(".date");
+    const completed =
+        tasks.filter(
+            function(task) {
 
-
-            const priorityElement =
-                taskItem
-                .querySelector(".priority");
-
-
-            const dateText =
-                dateElement
-                ? dateElement.textContent
-                : "";
-
-
-            const priorityText =
-                priorityElement
-                ? priorityElement.textContent
-                : "Medium";
-
-
-            tasks.push({
-
-                text: title,
-
-                date: extractDate(dateText),
-
-                priority:
-                    priorityText
-                    .toLowerCase()
-                    .replace(
-                        " priority",
-                        ""
-                    ),
-
-                completed:
-                    taskItem.classList
-                    .contains("completed")
-
-            });
-
-        });
-
-
-    localStorage.setItem(
-        "tasks",
-        JSON.stringify(tasks)
-    );
-
-}
-
-
-
-/* LOAD TASKS */
-
-function loadTasks() {
-
-    const savedTasks =
-        JSON.parse(
-            localStorage.getItem("tasks")
-        );
-
-
-    if (savedTasks) {
-
-        savedTasks.forEach(
-            function (task) {
-
-                createTask(
-                    task.text,
-                    task.date,
-                    task.priority || "medium",
-                    task.completed
-                );
+                return task.completed;
 
             }
-        );
-
-    }
+        ).length;
 
 
-    updateTaskUI();
-
-}
-
+    const active =
+        total - completed;
 
 
-/* UPDATE UI */
-
-function updateTaskUI() {
-
-    const tasks =
-        document.querySelectorAll(
-            "#taskList li"
+    const percentage =
+        total === 0
+        ? 0
+        : Math.round(
+            (completed / total) * 100
         );
 
 
     taskCount.textContent =
-        tasks.length;
+        visibleTaskCount;
 
 
-    if (tasks.length === 0) {
+    totalTasks.textContent =
+        total;
+
+
+    activeTasks.textContent =
+        active;
+
+
+    completedTasks.textContent =
+        completed;
+
+
+    completionRate.textContent =
+        percentage + "%";
+
+
+    if (total === 0) {
 
         emptyState.style.display =
+            "block";
+
+        noResults.style.display =
+            "none";
+
+    }
+
+    else if (
+        visibleTaskCount === 0
+    ) {
+
+        emptyState.style.display =
+            "none";
+
+        noResults.style.display =
             "block";
 
     }
@@ -358,18 +564,117 @@ function updateTaskUI() {
         emptyState.style.display =
             "none";
 
+        noResults.style.display =
+            "none";
+
     }
 
 }
 
 
 
-/* FORMAT DATE */
+/* =========================
+   SEARCH
+========================= */
 
-function formatDate(dateString) {
+searchInput.addEventListener(
+    "input",
+    function() {
+
+        renderTasks();
+
+    }
+);
+
+
+
+/* =========================
+   FILTERS
+========================= */
+
+filterButtons.forEach(
+    function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+
+                filterButtons.forEach(
+                    function(btn) {
+
+                        btn.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                currentFilter =
+                    button.dataset.filter;
+
+
+                renderTasks();
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =========================
+   ADD BUTTON
+========================= */
+
+addTaskBtn.addEventListener(
+    "click",
+    addTask
+);
+
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+taskInput.addEventListener(
+    "keypress",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            addTask();
+
+        }
+
+    }
+);
+
+
+
+/* =========================
+   DATE FORMAT
+========================= */
+
+function formatDate(
+    dateString
+) {
 
     const date =
-        new Date(dateString);
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
 
 
     return date.toLocaleDateString(
@@ -385,9 +690,13 @@ function formatDate(dateString) {
 
 
 
-/* FORMAT PRIORITY */
+/* =========================
+   PRIORITY
+========================= */
 
-function formatPriority(level) {
+function formatPriority(
+    level
+) {
 
     if (level === "high") {
 
@@ -409,81 +718,22 @@ function formatPriority(level) {
 
 
 
-/* EXTRACT SAVED DATE */
-
-function extractDate(text) {
-
-    const match =
-        text.match(
-            /📅\s(.+)/
-        );
-
-
-    if (!match) {
-
-        return "";
-
-    }
-
-
-    const parsed =
-        new Date(match[1]);
-
-
-    if (
-        Number.isNaN(
-            parsed.getTime()
-        )
-    ) {
-
-        return "";
-
-    }
-
-
-    return parsed
-        .toISOString()
-        .split("T")[0];
-
-}
-
-
-
-/* BASIC HTML SAFETY */
+/* =========================
+   HTML SAFETY
+========================= */
 
 function escapeHTML(text) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    div.textContent = text;
+
+    div.textContent =
+        text;
+
 
     return div.innerHTML;
 
 }
-
-
-
-/* BUTTON */
-
-addTaskBtn.addEventListener(
-    "click",
-    addTask
-);
-
-
-
-/* ENTER KEY */
-
-taskInput.addEventListener(
-    "keypress",
-    function (event) {
-
-        if (event.key === "Enter") {
-
-            addTask();
-
-        }
-
-    }
-);
