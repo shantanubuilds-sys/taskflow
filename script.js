@@ -8,15 +8,28 @@ const taskCount = document.getElementById("taskCount");
 
 const emptyState = document.getElementById("emptyState");
 
+const dueDate = document.getElementById("dueDate");
+
+const priority = document.getElementById("priority");
 
 
-document.addEventListener("DOMContentLoaded", loadTasks);
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadTasks
+);
 
 
+
+/* ADD TASK */
 
 function addTask() {
 
     const taskText = taskInput.value.trim();
+
+    const taskDueDate = dueDate.value;
+
+    const taskPriority = priority.value;
 
 
     if (taskText === "") {
@@ -28,10 +41,19 @@ function addTask() {
     }
 
 
-    createTask(taskText, false);
+    createTask(
+        taskText,
+        taskDueDate,
+        taskPriority,
+        false
+    );
 
 
     taskInput.value = "";
+
+    dueDate.value = "";
+
+    priority.value = "medium";
 
 
     saveTasks();
@@ -42,16 +64,50 @@ function addTask() {
 
 
 
-function createTask(taskText, completed) {
+/* CREATE TASK */
+
+function createTask(
+    taskText,
+    taskDueDate,
+    taskPriority,
+    completed
+) {
 
     const taskItem = document.createElement("li");
 
 
     taskItem.innerHTML = `
 
-        <span>${taskText}</span>
+        <div class="task-content">
 
-        <button class="delete-btn">Delete</button>
+            <div class="task-title">
+                ${escapeHTML(taskText)}
+            </div>
+
+            <div class="task-meta">
+
+                ${
+                    taskDueDate
+                    ? `<span class="date">
+                        📅 ${formatDate(taskDueDate)}
+                       </span>`
+                    : `<span class="date">
+                        📅 No deadline
+                       </span>`
+                }
+
+                <span class="priority priority-${taskPriority}">
+                    ${formatPriority(taskPriority)}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button class="delete-btn">
+            Delete
+        </button>
 
     `;
 
@@ -63,27 +119,40 @@ function createTask(taskText, completed) {
     }
 
 
-    taskItem.addEventListener("click", function (event) {
+    updateDeadlineStatus(
+        taskItem,
+        taskDueDate,
+        completed
+    );
 
 
-        if (event.target.classList.contains("delete-btn")) {
+    taskItem.addEventListener(
+        "click",
+        function (event) {
 
-            taskItem.remove();
+            if (
+                event.target.classList
+                .contains("delete-btn")
+            ) {
+
+                taskItem.remove();
+
+            }
+
+            else {
+
+                taskItem.classList
+                    .toggle("completed");
+
+            }
+
+
+            saveTasks();
+
+            updateTaskUI();
 
         }
-
-        else {
-
-            taskItem.classList.toggle("completed");
-
-        }
-
-
-        saveTasks();
-
-        updateTaskUI();
-
-    });
+    );
 
 
     taskList.appendChild(taskItem);
@@ -92,44 +161,167 @@ function createTask(taskText, completed) {
 
 
 
-function saveTasks() {
+/* DEADLINE STATUS */
 
-    const tasks = [];
+function updateDeadlineStatus(
+    taskItem,
+    taskDueDate,
+    completed
+) {
 
+    if (!taskDueDate || completed) {
 
-    document.querySelectorAll("#taskList li").forEach(function (taskItem) {
+        return;
 
-
-        tasks.push({
-
-            text: taskItem.querySelector("span").textContent,
-
-            completed: taskItem.classList.contains("completed")
-
-        });
-
-    });
+    }
 
 
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const today =
+        new Date();
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const deadline =
+        new Date(taskDueDate);
+
+    deadline.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const difference =
+        deadline - today;
+
+
+    const oneDay =
+        1000 * 60 * 60 * 24;
+
+
+    if (difference < 0) {
+
+        taskItem.classList.add(
+            "overdue"
+        );
+
+    }
+
+    else if (difference <= oneDay) {
+
+        taskItem.classList.add(
+            "due-soon"
+        );
+
+    }
 
 }
 
 
 
+/* SAVE TASKS */
+
+function saveTasks() {
+
+    const tasks = [];
+
+
+    document
+        .querySelectorAll("#taskList li")
+        .forEach(function (taskItem) {
+
+
+            const title =
+                taskItem
+                .querySelector(".task-title")
+                .textContent;
+
+
+            const dateElement =
+                taskItem
+                .querySelector(".date");
+
+
+            const priorityElement =
+                taskItem
+                .querySelector(".priority");
+
+
+            const dateText =
+                dateElement
+                ? dateElement.textContent
+                : "";
+
+
+            const priorityText =
+                priorityElement
+                ? priorityElement.textContent
+                : "Medium";
+
+
+            tasks.push({
+
+                text: title,
+
+                date: extractDate(dateText),
+
+                priority:
+                    priorityText
+                    .toLowerCase()
+                    .replace(
+                        " priority",
+                        ""
+                    ),
+
+                completed:
+                    taskItem.classList
+                    .contains("completed")
+
+            });
+
+        });
+
+
+    localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks)
+    );
+
+}
+
+
+
+/* LOAD TASKS */
+
 function loadTasks() {
 
-    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    const savedTasks =
+        JSON.parse(
+            localStorage.getItem("tasks")
+        );
 
 
     if (savedTasks) {
 
+        savedTasks.forEach(
+            function (task) {
 
-        savedTasks.forEach(function (task) {
+                createTask(
+                    task.text,
+                    task.date,
+                    task.priority || "medium",
+                    task.completed
+                );
 
-            createTask(task.text, task.completed);
-
-        });
+            }
+        );
 
     }
 
@@ -140,23 +332,31 @@ function loadTasks() {
 
 
 
+/* UPDATE UI */
+
 function updateTaskUI() {
 
-    const tasks = document.querySelectorAll("#taskList li");
+    const tasks =
+        document.querySelectorAll(
+            "#taskList li"
+        );
 
 
-    taskCount.textContent = tasks.length;
+    taskCount.textContent =
+        tasks.length;
 
 
     if (tasks.length === 0) {
 
-        emptyState.style.display = "block";
+        emptyState.style.display =
+            "block";
 
     }
 
     else {
 
-        emptyState.style.display = "none";
+        emptyState.style.display =
+            "none";
 
     }
 
@@ -164,17 +364,126 @@ function updateTaskUI() {
 
 
 
-addTaskBtn.addEventListener("click", addTask);
+/* FORMAT DATE */
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(dateString);
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
 
 
 
-taskInput.addEventListener("keypress", function (event) {
+/* FORMAT PRIORITY */
 
+function formatPriority(level) {
 
-    if (event.key === "Enter") {
+    if (level === "high") {
 
-        addTask();
+        return "High Priority";
 
     }
 
-});
+
+    if (level === "low") {
+
+        return "Low Priority";
+
+    }
+
+
+    return "Medium Priority";
+
+}
+
+
+
+/* EXTRACT SAVED DATE */
+
+function extractDate(text) {
+
+    const match =
+        text.match(
+            /📅\s(.+)/
+        );
+
+
+    if (!match) {
+
+        return "";
+
+    }
+
+
+    const parsed =
+        new Date(match[1]);
+
+
+    if (
+        Number.isNaN(
+            parsed.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return parsed
+        .toISOString()
+        .split("T")[0];
+
+}
+
+
+
+/* BASIC HTML SAFETY */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+
+/* BUTTON */
+
+addTaskBtn.addEventListener(
+    "click",
+    addTask
+);
+
+
+
+/* ENTER KEY */
+
+taskInput.addEventListener(
+    "keypress",
+    function (event) {
+
+        if (event.key === "Enter") {
+
+            addTask();
+
+        }
+
+    }
+);
