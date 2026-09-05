@@ -5,11 +5,17 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>TaskFlow | Student Task Manager</title>
+    <title>TaskFlow | Student Productivity</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
@@ -20,6 +26,7 @@
 
         <section class="app">
 
+
             <!-- HEADER -->
 
             <header class="app-header">
@@ -27,8 +34,15 @@
                 <div>
 
                     <div class="brand">
-                        <span class="brand-icon">✓</span>
-                        <h1>TaskFlow</h1>
+
+                        <span class="brand-icon">
+                            ✓
+                        </span>
+
+                        <h1>
+                            TaskFlow
+                        </h1>
+
                     </div>
 
                     <p class="subtitle">
@@ -40,9 +54,13 @@
 
                 <div class="task-counter">
 
-                    <span id="taskCount">0</span>
+                    <span id="taskCount">
+                        0
+                    </span>
 
-                    <small>Tasks</small>
+                    <small>
+                        Tasks
+                    </small>
 
                 </div>
 
@@ -50,9 +68,100 @@
 
 
 
-            <!-- TASK CREATION -->
+            <!-- PRODUCTIVITY DASHBOARD -->
 
-            <div class="task-form">
+            <section class="dashboard">
+
+                <div class="stat-card">
+
+                    <span class="stat-icon">
+                        📋
+                    </span>
+
+                    <div>
+
+                        <strong id="totalTasks">
+                            0
+                        </strong>
+
+                        <span>
+                            Total
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-icon">
+                        ⏳
+                    </span>
+
+                    <div>
+
+                        <strong id="activeTasks">
+                            0
+                        </strong>
+
+                        <span>
+                            Active
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-icon">
+                        ✅
+                    </span>
+
+                    <div>
+
+                        <strong id="completedTasks">
+                            0
+                        </strong>
+
+                        <span>
+                            Completed
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-icon">
+                        📈
+                    </span>
+
+                    <div>
+
+                        <strong id="completionRate">
+                            0%
+                        </strong>
+
+                        <span>
+                            Progress
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADD TASK -->
+
+            <section class="task-form">
 
                 <input
                     type="text"
@@ -76,7 +185,10 @@
                             Low Priority
                         </option>
 
-                        <option value="medium" selected>
+                        <option
+                            value="medium"
+                            selected
+                        >
                             Medium Priority
                         </option>
 
@@ -93,22 +205,106 @@
 
                 </div>
 
-            </div>
+            </section>
+
+
+
+            <!-- SEARCH -->
+
+            <section class="controls">
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search your tasks..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="filters">
+
+                    <button
+                        class="filter-btn active"
+                        data-filter="all"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="active"
+                    >
+                        Active
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="completed"
+                    >
+                        Completed
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="high"
+                    >
+                        High Priority
+                    </button>
+
+                </div>
+
+            </section>
 
 
 
             <!-- EMPTY STATE -->
 
-            <div id="emptyState" class="empty-state">
+            <div
+                id="emptyState"
+                class="empty-state"
+            >
 
                 <div class="empty-icon">
                     📋
                 </div>
 
-                <h2>No tasks yet</h2>
+                <h2>
+                    No tasks yet
+                </h2>
 
                 <p>
                     Add your first task and start your day.
+                </p>
+
+            </div>
+
+
+            <!-- NO SEARCH RESULTS -->
+
+            <div
+                id="noResults"
+                class="empty-state"
+                style="display: none;"
+            >
+
+                <div class="empty-icon">
+                    🔍
+                </div>
+
+                <h2>
+                    No matching tasks
+                </h2>
+
+                <p>
+                    Try another search or filter.
                 </p>
 
             </div>
