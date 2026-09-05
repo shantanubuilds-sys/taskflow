@@ -11,19 +11,16 @@ body {
 
     min-height: 100vh;
 
-    display: flex;
+    padding: 30px 20px;
 
-    justify-content: center;
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f8fafc
+        );
 
-    align-items: center;
-
-    padding: 20px;
-
-    background: linear-gradient(
-        135deg,
-        #eef2ff,
-        #f8fafc
-    );
+    color: #1e293b;
 
 }
 
@@ -32,7 +29,9 @@ body {
 
     width: 100%;
 
-    max-width: 720px;
+    max-width: 850px;
+
+    margin: auto;
 
 }
 
@@ -43,15 +42,18 @@ body {
 
     padding: 35px;
 
-    border-radius: 20px;
+    border-radius: 22px;
 
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.12);
+        0 20px 60px
+        rgba(0, 0, 0, 0.10);
 
 }
 
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .app-header {
 
@@ -61,7 +63,7 @@ body {
 
     align-items: center;
 
-    margin-bottom: 30px;
+    margin-bottom: 28px;
 
 }
 
@@ -79,21 +81,21 @@ body {
 
 .brand-icon {
 
-    width: 38px;
+    width: 40px;
 
-    height: 38px;
+    height: 40px;
 
     display: flex;
 
-    align-items: center;
-
     justify-content: center;
+
+    align-items: center;
 
     background: #6366f1;
 
     color: white;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     font-size: 20px;
 
@@ -111,22 +113,24 @@ h1 {
 
 .subtitle {
 
-    color: #64748b;
+    margin-top: 7px;
 
-    margin-top: 8px;
+    color: #64748b;
 
 }
 
 
 .task-counter {
 
+    min-width: 70px;
+
     text-align: center;
 
-    padding: 10px 16px;
-
-    background: #f1f5f9;
+    padding: 10px 15px;
 
     border-radius: 12px;
+
+    background: #f1f5f9;
 
 }
 
@@ -135,7 +139,7 @@ h1 {
 
     display: block;
 
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 
     font-weight: bold;
 
@@ -149,7 +153,71 @@ h1 {
 }
 
 
-/* TASK FORM */
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 28px;
+
+}
+
+
+.stat-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    background: #f8fafc;
+
+}
+
+
+.stat-icon {
+
+    font-size: 1.5rem;
+
+}
+
+
+.stat-card strong {
+
+    display: block;
+
+    font-size: 1.25rem;
+
+}
+
+
+.stat-card span:last-child {
+
+    font-size: 0.78rem;
+
+    color: #64748b;
+
+}
+
+
+/* =========================
+   ADD TASK
+========================= */
 
 .task-form {
 
@@ -162,11 +230,11 @@ h1 {
 
     width: 100%;
 
-    padding: 14px;
+    padding: 15px;
 
     border: 1px solid #cbd5e1;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     font-size: 1rem;
 
@@ -182,7 +250,8 @@ h1 {
     border-color: #6366f1;
 
     box-shadow:
-        0 0 0 3px rgba(99, 102, 241, 0.15);
+        0 0 0 3px
+        rgba(99, 102, 241, 0.12);
 
 }
 
@@ -199,6 +268,8 @@ h1 {
 #dueDate,
 #priority {
 
+    flex: 1;
+
     padding: 12px;
 
     border: 1px solid #cbd5e1;
@@ -207,22 +278,6 @@ h1 {
 
     background: white;
 
-    cursor: pointer;
-
-}
-
-
-#dueDate {
-
-    flex: 1;
-
-}
-
-
-#priority {
-
-    flex: 1;
-
 }
 
 
@@ -230,21 +285,24 @@ button {
 
     border: none;
 
-    padding: 12px 18px;
-
     border-radius: 10px;
+
+    padding: 12px 17px;
 
     cursor: pointer;
 
-    font-size: 0.95rem;
-
     font-weight: bold;
+
+    transition: 0.2s;
+
+}
+
+
+#addTaskBtn {
 
     background: #6366f1;
 
     color: white;
-
-    transition: 0.2s;
 
 }
 
@@ -253,12 +311,88 @@ button:hover {
 
     transform: translateY(-1px);
 
-    opacity: 0.9;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.controls {
+
+    margin-bottom: 22px;
 
 }
 
 
-/* EMPTY STATE */
+.search-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 11px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.search-box input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    padding: 13px 5px;
+
+    font-size: 0.95rem;
+
+}
+
+
+.filters {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.filter-btn {
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 0.85rem;
+
+}
+
+
+.filter-btn.active {
+
+    background: #6366f1;
+
+    color: white;
+
+}
+
+
+/* =========================
+   EMPTY STATES
+========================= */
 
 .empty-state {
 
@@ -275,7 +409,7 @@ button:hover {
 
     font-size: 3rem;
 
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 
 }
 
@@ -284,12 +418,14 @@ button:hover {
 
     color: #334155;
 
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 
 }
 
 
-/* TASKS */
+/* =========================
+   TASK LIST
+========================= */
 
 ul {
 
@@ -302,21 +438,19 @@ li {
 
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
 
     gap: 15px;
 
-    padding: 16px;
+    padding: 17px;
 
-    margin-bottom: 12px;
-
-    background: #f8fafc;
+    margin-bottom: 11px;
 
     border: 1px solid #e2e8f0;
 
     border-radius: 14px;
+
+    background: #f8fafc;
 
     transition: 0.2s;
 
@@ -328,7 +462,8 @@ li:hover {
     transform: translateY(-2px);
 
     box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.06);
+        0 8px 20px
+        rgba(0, 0, 0, 0.05);
 
 }
 
@@ -344,8 +479,6 @@ li:hover {
 
     font-weight: 600;
 
-    color: #1e293b;
-
     margin-bottom: 7px;
 
 }
@@ -355,9 +488,9 @@ li:hover {
 
     display: flex;
 
-    align-items: center;
-
     gap: 8px;
+
+    align-items: center;
 
     flex-wrap: wrap;
 
@@ -373,17 +506,15 @@ li:hover {
 }
 
 
-/* PRIORITY */
-
 .priority {
 
     font-size: 0.72rem;
 
+    font-weight: bold;
+
     padding: 4px 8px;
 
     border-radius: 20px;
-
-    font-weight: bold;
 
 }
 
@@ -415,8 +546,6 @@ li:hover {
 }
 
 
-/* STATUS */
-
 .overdue {
 
     border-color: #ef4444;
@@ -447,22 +576,36 @@ li:hover {
 }
 
 
-/* DELETE BUTTON */
-
 .delete-btn {
 
     background: #ef4444;
 
-    padding: 8px 12px;
+    color: white;
 
-    font-size: 0.8rem;
+    padding: 8px 11px;
+
+    font-size: 0.78rem;
 
 }
 
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+
+    .dashboard {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 550px) {
 
     .app {
 
@@ -487,15 +630,17 @@ li:hover {
     }
 
 
-    #dueDate,
-    #priority {
+    .filters {
 
-        width: 100%;
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
 
     }
 
 
-    .task-options button {
+    .filter-btn {
 
         width: 100%;
 
