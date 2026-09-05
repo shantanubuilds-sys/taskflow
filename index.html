@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TaskFlow | Task Manager</title>
+    <title>TaskFlow | Student Task Manager</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -20,17 +20,23 @@
 
         <section class="app">
 
+            <!-- HEADER -->
+
             <header class="app-header">
 
                 <div>
 
-                    <h1>TaskFlow</h1>
+                    <div class="brand">
+                        <span class="brand-icon">✓</span>
+                        <h1>TaskFlow</h1>
+                    </div>
 
                     <p class="subtitle">
                         Organize your day. Get things done.
                     </p>
 
                 </div>
+
 
                 <div class="task-counter">
 
@@ -43,7 +49,10 @@
             </header>
 
 
-            <div class="task-input">
+
+            <!-- TASK CREATION -->
+
+            <div class="task-form">
 
                 <input
                     type="text"
@@ -52,23 +61,61 @@
                     autocomplete="off"
                 >
 
-                <button id="addTaskBtn">
-                    Add Task
-                </button>
+
+                <div class="task-options">
+
+                    <input
+                        type="date"
+                        id="dueDate"
+                    >
+
+
+                    <select id="priority">
+
+                        <option value="low">
+                            Low Priority
+                        </option>
+
+                        <option value="medium" selected>
+                            Medium Priority
+                        </option>
+
+                        <option value="high">
+                            High Priority
+                        </option>
+
+                    </select>
+
+
+                    <button id="addTaskBtn">
+                        Add Task
+                    </button>
+
+                </div>
 
             </div>
 
+
+
+            <!-- EMPTY STATE -->
 
             <div id="emptyState" class="empty-state">
 
-                <div class="empty-icon">📋</div>
+                <div class="empty-icon">
+                    📋
+                </div>
 
                 <h2>No tasks yet</h2>
 
-                <p>Add your first task and start your day.</p>
+                <p>
+                    Add your first task and start your day.
+                </p>
 
             </div>
 
+
+
+            <!-- TASK LIST -->
 
             <ul id="taskList"></ul>
 
