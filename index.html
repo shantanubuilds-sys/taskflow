@@ -2,23 +2,17 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskFlow | Student Productivity</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
@@ -26,236 +20,121 @@
 
         <section class="app">
 
-
             <!-- HEADER -->
-
             <header class="app-header">
-
                 <div>
-
                     <div class="brand">
-
-                        <span class="brand-icon">
-                            ✓
-                        </span>
-
-                        <h1>
-                            TaskFlow
-                        </h1>
-
+                        <span class="brand-icon" aria-hidden="true">✓</span>
+                        <h1>TaskFlow</h1>
                     </div>
-
-                    <p class="subtitle">
-                        Organize your day. Get things done.
-                    </p>
-
+                    <p class="subtitle">Organize your day. Get things done.</p>
                 </div>
 
-
-                <div class="task-counter">
-
-                    <span id="taskCount">
-                        0
-                    </span>
-
-                    <small>
-                        Tasks
-                    </small>
-
+                <div class="task-counter" aria-label="Active task count">
+                    <span id="taskCount">0</span>
+                    <small>Tasks</small>
                 </div>
-
             </header>
 
-
-
             <!-- PRODUCTIVITY DASHBOARD -->
-
-            <section class="dashboard">
+            <section class="dashboard" aria-label="Productivity Statistics">
 
                 <div class="stat-card">
-
-                    <span class="stat-icon">
-                        📋
-                    </span>
-
+                    <span class="stat-icon" role="img" aria-label="Clipboard">📋</span>
                     <div>
-
-                        <strong id="totalTasks">
-                            0
-                        </strong>
-
-                        <span>
-                            Total
-                        </span>
-
+                        <strong id="totalTasks">0</strong>
+                        <span>Total</span>
                     </div>
-
                 </div>
 
-
                 <div class="stat-card">
-
-                    <span class="stat-icon">
-                        ⏳
-                    </span>
-
+                    <span class="stat-icon" role="img" aria-label="Hourglass">⏳</span>
                     <div>
-
-                        <strong id="activeTasks">
-                            0
-                        </strong>
-
-                        <span>
-                            Active
-                        </span>
-
+                        <strong id="activeTasks">0</strong>
+                        <span>Active</span>
                     </div>
-
                 </div>
 
-
                 <div class="stat-card">
-
-                    <span class="stat-icon">
-                        ✅
-                    </span>
-
+                    <span class="stat-icon" role="img" aria-label="Checkmark">✅</span>
                     <div>
-
-                        <strong id="completedTasks">
-                            0
-                        </strong>
-
-                        <span>
-                            Completed
-                        </span>
-
+                        <strong id="completedTasks">0</strong>
+                        <span>Completed</span>
                     </div>
-
                 </div>
 
-
                 <div class="stat-card">
-
-                    <span class="stat-icon">
-                        📈
-                    </span>
-
+                    <span class="stat-icon" role="img" aria-label="Chart">📈</span>
                     <div>
-
-                        <strong id="completionRate">
-                            0%
-                        </strong>
-
-                        <span>
-                            Progress
-                        </span>
-
+                        <strong id="completionRate">0%</strong>
+                        <span>Progress</span>
                     </div>
-
                 </div>
 
             </section>
 
-
-
-            <!-- ADD TASK -->
-
+            <!-- ADD TASK FORM -->
             <section class="task-form">
 
-                <input
-                    type="text"
-                    id="taskInput"
-                    placeholder="What do you need to do?"
+                <input 
+                    type="text" 
+                    id="taskInput" 
+                    placeholder="What do you need to do?" 
                     autocomplete="off"
+                    aria-label="New task title"
                 >
-
 
                 <div class="task-options">
 
-                    <input
-                        type="date"
+                    <input 
+                        type="date" 
                         id="dueDate"
+                        aria-label="Task due date"
                     >
 
-
-                    <select id="priority">
-
-                        <option value="low">
-                            Low Priority
-                        </option>
-
-                        <option
-                            value="medium"
-                            selected
-                        >
-                            Medium Priority
-                        </option>
-
-                        <option value="high">
-                            High Priority
-                        </option>
-
+                    <select id="priority" aria-label="Task priority scale">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
                     </select>
 
-
-                    <button id="addTaskBtn">
-                        Add Task
+                    <button id="addTaskBtn" type="button">
+                        <span>+ Add Task</span>
                     </button>
 
                 </div>
 
             </section>
 
-
-
-            <!-- SEARCH -->
-
+            <!-- SEARCH & FILTERS -->
             <section class="controls">
 
                 <div class="search-box">
-
-                    <span>
-                        🔍
-                    </span>
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="Search your tasks..."
+                    <span aria-hidden="true">🔍</span>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search your tasks..." 
                         autocomplete="off"
+                        aria-label="Search tasks"
                     >
-
                 </div>
 
+                <div class="filters" role="tablist" aria-label="Filter tasks">
 
-                <div class="filters">
-
-                    <button
-                        class="filter-btn active"
-                        data-filter="all"
-                    >
+                    <button class="filter-btn active" data-filter="all">
                         All
                     </button>
 
-                    <button
-                        class="filter-btn"
-                        data-filter="active"
-                    >
+                    <button class="filter-btn" data-filter="active">
                         Active
                     </button>
 
-                    <button
-                        class="filter-btn"
-                        data-filter="completed"
-                    >
+                    <button class="filter-btn" data-filter="completed">
                         Completed
                     </button>
 
-                    <button
-                        class="filter-btn"
-                        data-filter="high"
-                    >
+                    <button class="filter-btn" data-filter="high">
                         High Priority
                     </button>
 
@@ -263,63 +142,26 @@
 
             </section>
 
-
-
             <!-- EMPTY STATE -->
-
-            <div
-                id="emptyState"
-                class="empty-state"
-            >
-
-                <div class="empty-icon">
-                    📋
-                </div>
-
-                <h2>
-                    No tasks yet
-                </h2>
-
-                <p>
-                    Add your first task and start your day.
-                </p>
-
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon" role="img" aria-label="Empty list">📋</div>
+                <h2>No tasks yet</h2>
+                <p>Add your first task and start your day.</p>
             </div>
-
 
             <!-- NO SEARCH RESULTS -->
-
-            <div
-                id="noResults"
-                class="empty-state"
-                style="display: none;"
-            >
-
-                <div class="empty-icon">
-                    🔍
-                </div>
-
-                <h2>
-                    No matching tasks
-                </h2>
-
-                <p>
-                    Try another search or filter.
-                </p>
-
+            <div id="noResults" class="empty-state" style="display: none;">
+                <div class="empty-icon" role="img" aria-label="No search results">🔍</div>
+                <h2>No matching tasks</h2>
+                <p>Try another search or filter.</p>
             </div>
 
-
-
             <!-- TASK LIST -->
-
-            <ul id="taskList"></ul>
-
+            <ul id="taskList" aria-live="polite"></ul>
 
         </section>
 
     </main>
-
 
     <script src="script.js"></script>
 
