@@ -1,656 +1,513 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ==========================================================================
+   DESIGN TOKENS & UI STYLEGUIDE VARIABLES
+   ========================================================================== */
+:root {
+  /* Color Tokens */
+  --primary: #9ebceec;          /* Mint/Pastel Primary Accent */
+  --primary-hover: #bde0d0;    /* Brightened Mint Hover State */
+  --primary-focus: #00cfcc;    /* Vibrant Focus Ring Accent */
+  --surface: #f4f6f8;          /* Light Matte Surface */
+  --card-bg: #ffffff;          /* Off-White Element Background */
+  --text-main: #1c2526;        /* High Contrast Charcoal Text */
+  --text-muted: #728082;       /* Slate Neutral Text */
+  --border-color: #e2e8f0;     /* Crisp Structure Outline */
+  
+  /* Status Alert Colors */
+  --success-bg: #d1fae5;
+  --success-text: #065f46;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --error-bg: #fee2e2;
+  --error-text: #991b1b;
+
+  /* Priority Tokens */
+  --priority-low-bg: #e2e8f0;
+  --priority-low-text: #475569;
+  --priority-medium-bg: #fef3c7;
+  --priority-medium-text: #92400e;
+  --priority-high-bg: #fee2e2;
+  --priority-high-text: #991b1b;
+
+  /* Radius & Spacing */
+  --radius-pill: 999px;
+  --radius-card: 20px;
+  --radius-input: 16px;
+  
+  /* Tactile Elevation Shadows */
+  --elevation-1: 0 4px 10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --elevation-2: 0 10px 25px rgba(0, 0, 0, 0.06), 0 4px 10px rgba(0, 0, 0, 0.04);
+  --elevation-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+  /* Micro Interactions */
+  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
 body {
-
-    font-family: Arial, sans-serif;
-
-    min-height: 100vh;
-
-    padding: 30px 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eef2ff,
-            #f8fafc
-        );
-
-    color: #1e293b;
-
+  background-color: var(--surface);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
 }
-
 
 .container {
-
-    width: 100%;
-
-    max-width: 850px;
-
-    margin: auto;
-
+  width: 100%;
+  max-width: 850px;
 }
-
 
 .app {
-
-    background: white;
-
-    padding: 35px;
-
-    border-radius: 22px;
-
-    box-shadow:
-        0 20px 60px
-        rgba(0, 0, 0, 0.10);
-
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--elevation-2);
+  border: 1px solid var(--border-color);
 }
 
-
-/* =========================
+/* ==========================================================================
    HEADER
-========================= */
-
+   ========================================================================== */
 .app-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 28px;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
 }
-
 
 .brand {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-
 
 .brand-icon {
-
-    width: 40px;
-
-    height: 40px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background: #6366f1;
-
-    color: white;
-
-    border-radius: 11px;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--primary);
+  color: var(--text-main);
+  border-radius: 14px;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: var(--elevation-1);
 }
-
 
 h1 {
-
-    font-size: 2.2rem;
-
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
 }
-
 
 .subtitle {
-
-    margin-top: 7px;
-
-    color: #64748b;
-
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
-
 
 .task-counter {
-
-    min-width: 70px;
-
-    text-align: center;
-
-    padding: 10px 15px;
-
-    border-radius: 12px;
-
-    background: #f1f5f9;
-
+  min-width: 80px;
+  text-align: center;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--elevation-inset);
 }
-
 
 .task-counter span {
-
-    display: block;
-
-    font-size: 1.4rem;
-
-    font-weight: bold;
-
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-main);
 }
-
 
 .task-counter small {
-
-    color: #64748b;
-
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
 }
 
-
-/* =========================
-   DASHBOARD
-========================= */
-
+/* ==========================================================================
+   DASHBOARD CARDS
+   ========================================================================== */
 .dashboard {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 12px;
-
-    margin-bottom: 28px;
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
 }
-
 
 .stat-card {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding: 15px;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 14px;
-
-    background: #f8fafc;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--card-bg);
+  box-shadow: var(--elevation-1);
+  transition: var(--transition);
 }
 
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-2);
+}
 
 .stat-icon {
-
-    font-size: 1.5rem;
-
+  font-size: 1.5rem;
 }
-
 
 .stat-card strong {
-
-    display: block;
-
-    font-size: 1.25rem;
-
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
-
 
 .stat-card span:last-child {
-
-    font-size: 0.78rem;
-
-    color: #64748b;
-
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-
-/* =========================
-   ADD TASK
-========================= */
-
+/* ==========================================================================
+   ADD TASK FORM & INPUTS
+   ========================================================================== */
 .task-form {
-
-    margin-bottom: 25px;
-
+  margin-bottom: 30px;
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
 }
-
 
 #taskInput {
-
-    width: 100%;
-
-    padding: 15px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 11px;
-
-    font-size: 1rem;
-
-    outline: none;
-
-    margin-bottom: 10px;
-
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-input);
+  font-size: 0.95rem;
+  outline: none;
+  background: var(--card-bg);
+  color: var(--text-main);
+  box-shadow: var(--elevation-inset);
+  transition: var(--transition);
+  margin-bottom: 12px;
 }
-
 
 #taskInput:focus {
-
-    border-color: #6366f1;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(99, 102, 241, 0.12);
-
+  border-color: var(--primary-focus);
+  box-shadow: 0 0 0 3px rgba(0, 207, 204, 0.25);
 }
-
 
 .task-options {
-
-    display: flex;
-
-    gap: 10px;
-
+  display: flex;
+  gap: 12px;
 }
-
 
 #dueDate,
 #priority {
-
-    flex: 1;
-
-    padding: 12px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 10px;
-
-    background: white;
-
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  outline: none;
+  box-shadow: var(--elevation-1);
 }
 
+#dueDate:focus,
+#priority:focus {
+  border-color: var(--primary-focus);
+}
 
+/* Tactile Soft Button */
 button {
-
-    border: none;
-
-    border-radius: 10px;
-
-    padding: 12px 17px;
-
-    cursor: pointer;
-
-    font-weight: bold;
-
-    transition: 0.2s;
-
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 12px 22px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 #addTaskBtn {
-
-    background: #6366f1;
-
-    color: white;
-
+  background: var(--primary);
+  color: var(--text-main);
+  border-color: rgba(0, 0, 0, 0.05);
+  box-shadow: var(--elevation-1);
 }
 
-
-button:hover {
-
-    transform: translateY(-1px);
-
+#addTaskBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-2);
 }
 
+#addTaskBtn:active {
+  transform: translateY(0);
+}
 
-/* =========================
-   SEARCH
-========================= */
-
+/* ==========================================================================
+   SEARCH & FILTER CHIPS
+   ========================================================================== */
 .controls {
-
-    margin-bottom: 22px;
-
+  margin-bottom: 28px;
 }
-
 
 .search-box {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding: 0 13px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 11px;
-
-    margin-bottom: 12px;
-
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--elevation-1);
 }
-
 
 .search-box input {
-
-    width: 100%;
-
-    border: none;
-
-    outline: none;
-
-    padding: 13px 5px;
-
-    font-size: 0.95rem;
-
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px 0;
+  font-size: 0.92rem;
+  background: transparent;
+  color: var(--text-main);
 }
-
 
 .filters {
-
-    display: flex;
-
-    gap: 8px;
-
-    flex-wrap: wrap;
-
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-
+/* Tactile Chip Style */
 .filter-btn {
-
-    background: #f1f5f9;
-
-    color: #475569;
-
-    font-size: 0.85rem;
-
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--elevation-1);
 }
 
+.filter-btn:hover {
+  background: var(--card-bg);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
 
 .filter-btn.active {
-
-    background: #6366f1;
-
-    color: white;
-
+  background: var(--primary);
+  color: var(--text-main);
+  border-color: rgba(0, 0, 0, 0.05);
+  box-shadow: var(--elevation-1);
 }
 
-
-/* =========================
-   EMPTY STATES
-========================= */
-
+/* ==========================================================================
+   EMPTY STATES & ALERTS
+   ========================================================================== */
 .empty-state {
-
-    text-align: center;
-
-    padding: 45px 20px;
-
-    color: #64748b;
-
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  background: var(--surface);
+  border-radius: 20px;
+  border: 2px dashed var(--border-color);
 }
-
 
 .empty-icon {
-
-    font-size: 3rem;
-
-    margin-bottom: 12px;
-
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.7;
 }
-
 
 .empty-state h2 {
-
-    color: #334155;
-
-    margin-bottom: 7px;
-
+  color: var(--text-main);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
-
-/* =========================
-   TASK LIST
-========================= */
-
+/* ==========================================================================
+   TASK LIST & CARDS
+   ========================================================================== */
 ul {
-
-    list-style: none;
-
+  list-style: none;
 }
-
 
 li {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 17px;
-
-    margin-bottom: 11px;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 14px;
-
-    background: #f8fafc;
-
-    transition: 0.2s;
-
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--card-bg);
+  box-shadow: var(--elevation-1);
+  transition: var(--transition);
 }
-
 
 li:hover {
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px
-        rgba(0, 0, 0, 0.05);
-
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-2);
 }
-
 
 .task-content {
-
-    flex: 1;
-
+  flex: 1;
 }
-
 
 .task-title {
-
-    font-weight: 600;
-
-    margin-bottom: 7px;
-
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 6px;
 }
-
 
 .task-meta {
-
-    display: flex;
-
-    gap: 8px;
-
-    align-items: center;
-
-    flex-wrap: wrap;
-
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 }
-
 
 .date {
-
-    font-size: 0.8rem;
-
-    color: #64748b;
-
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
-
 
 .priority {
-
-    font-size: 0.72rem;
-
-    font-weight: bold;
-
-    padding: 4px 8px;
-
-    border-radius: 20px;
-
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  text-transform: capitalize;
 }
-
 
 .priority-low {
-
-    background: #e2e8f0;
-
-    color: #475569;
-
+  background: var(--priority-low-bg);
+  color: var(--priority-low-text);
 }
-
 
 .priority-medium {
-
-    background: #fef3c7;
-
-    color: #92400e;
-
+  background: var(--priority-medium-bg);
+  color: var(--priority-medium-text);
 }
-
 
 .priority-high {
-
-    background: #fee2e2;
-
-    color: #991b1b;
-
+  background: var(--priority-high-bg);
+  color: var(--priority-high-text);
 }
 
-
+/* Status Card Modifications */
 .overdue {
-
-    border-color: #ef4444;
-
-    background: #fff5f5;
-
+  border-color: var(--error-text);
+  background: var(--error-bg);
 }
-
 
 .due-soon {
-
-    border-color: #f59e0b;
-
+  border-color: var(--warning-text);
 }
-
 
 .completed {
-
-    opacity: 0.5;
-
+  opacity: 0.65;
+  background: var(--surface);
+  box-shadow: none;
 }
-
 
 .completed .task-title {
-
-    text-decoration: line-through;
-
+  text-decoration: line-through;
+  color: var(--text-muted);
 }
 
-
+/* Tactile Alert/Delete Button */
 .delete-btn {
-
-    background: #ef4444;
-
-    color: white;
-
-    padding: 8px 11px;
-
-    font-size: 0.78rem;
-
+  background: var(--error-bg);
+  color: var(--error-text);
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(153, 27, 27, 0.1);
 }
 
+.delete-btn:hover {
+  background: #fca5a5;
+  color: #7f1d1d;
+  transform: translateY(-1px);
+}
 
-/* =========================
-   MOBILE
-========================= */
-
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
 @media (max-width: 700px) {
-
-    .dashboard {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-    }
-
+  .dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-
 
 @media (max-width: 550px) {
+  body {
+    padding: 16px 10px;
+  }
 
-    .app {
+  .app {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
 
-        padding: 22px;
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 
-    }
+  .task-options {
+    flex-direction: column;
+  }
 
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .app-header {
+  .filter-btn {
+    width: 100%;
+  }
 
-        align-items: flex-start;
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 
-        gap: 15px;
-
-    }
-
-
-    .task-options {
-
-        flex-direction: column;
-
-    }
-
-
-    .filters {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-    }
-
-
-    .filter-btn {
-
-        width: 100%;
-
-    }
-
-
-    li {
-
-        align-items: flex-start;
-
-    }
-
+  .delete-btn {
+    align-self: flex-end;
+  }
 }
